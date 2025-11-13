@@ -8,7 +8,7 @@ let timeOnline = {};
 export const connectToSocket = (server) =>{
     const io = new Server(server, {
         cors:{
-            origin:" *",
+            origin:"https://videocall-frontend-guue.onrender.com",
             method:["GET", "POST"],
             allowedHeaders:["*"],
             credentials:true
