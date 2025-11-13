@@ -25,12 +25,6 @@ app.use("/api/v1/users",userRouter)
 const port = process.env.PORT;
 const url = process.env.MONGO_URL;
 
-import path from "node:path";
-app.use(express.static(path.join(__dirname, "frontend"))); 
-app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "index.html"));
-});
-
 async function start() {
     await mongoose.connect(url);
     console.log("DB connected")
