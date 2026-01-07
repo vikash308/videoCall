@@ -302,11 +302,28 @@ export default function VideoMeetComponent() {
 
       socketRef.current.on("chat-message", addMessage);
 
-      socketRef.current.on("user-left", (id) => {
+      socketRef.current.on("user-left", (id, username) => {
         setVideos((prev) => prev.filter((v) => v.socketId !== id));
+         setMessages((prev) => [
+           ...prev,
+           {
+             sender: "System",
+             data: `${username || "Someone"} left the call`,
+           },
+         ]);
       });
 
-      socketRef.current.on("user-joined", (id, clients) => {
+      socketRef.current.on("user-joined", (id,username, clients) => {
+        if (id !== socketIdRef.current) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              sender: "System",
+              data: `${username || "Someone"} joined the call`,
+            },
+          ]);
+        }
+
         clients.forEach((socketListId) => {
           if (connections[socketListId]) return;
           connections[socketListId] = new RTCPeerConnection(
@@ -458,7 +475,7 @@ export default function VideoMeetComponent() {
     try {
       socketRef.current?.disconnect();
     } catch (e) {}
-    window.location.href = "/home";
+    window.location.href = "/";
   };
 
   const addMessage = (data, sender, socketIdSender) => {
@@ -648,6 +665,19 @@ export default function VideoMeetComponent() {
               </div>
             </div>
           </aside>
+
+          {messages.map((m, idx) =>
+            m.sender === "System" ? (
+              <div key={idx} className={styles.systemMessage}>
+                {m.data}
+              </div>
+            ) : (
+              <div key={idx} className={styles.chatMessage}>
+                <div className={styles.chatSender}>{m.sender}</div>
+                <div className={styles.chatText}>{m.data}</div>
+              </div>
+            )
+          )}
 
           {/* bottom control bar */}
           <div className={styles.controlsBar}>

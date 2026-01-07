@@ -5,4 +5,4 @@ const server = IS_PROD ?
     "http://localhost:4000"
 
 
-export default server;
+export default server; 

@@ -105,7 +105,7 @@ export const connectToSocket = (server) => {
                         key = k
 
                         for (let a = 0; a < connections[key].length; ++a) {
-                            io.to(connections[key][a]).emit('user-left', socket.id)
+                            io.to(connections[key][a]).emit('user-left', socket.id, users[socket.id])
                         }
 
                         var index = connections[key].indexOf(socket.id)

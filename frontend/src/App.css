@@ -115,6 +115,13 @@ a {
 
 }
 
+.systemMessage {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #aaa;
+  margin: 8px 0;
+}
+
 .btn{
   padding: 14px 34px;
     font-size: 1.1rem;
